@@ -7,5 +7,5 @@
 
 # Or this specific files
 !CMakeLists.txt
-!.gitignore
+# !.gitignore
 !README.md
