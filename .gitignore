@@ -6,6 +6,6 @@
 !bt_monitor/*
 
 # Or this specific files
-# !CMakeLists.txt
+!CMakeLists.txt
 !.gitignore
 !README.md
