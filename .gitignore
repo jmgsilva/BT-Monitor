@@ -1,8 +1,9 @@
 # Ignore everything
-/*
+*
 
 # But not these directories
 !bt_monitor/
+!bt_monitor/*/
 !bt_monitor/*
 
 # Or this specific files
