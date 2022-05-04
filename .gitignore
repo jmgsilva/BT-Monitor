@@ -1,10 +1,8 @@
 # Ignore everything
 *
 
-# But not these type of files
-!*.cpp
-!*.h
-!*.ui
+# But not these directories
+!bt_monitor/**
 
 # Or this specific files
 !CMakeLists.txt
