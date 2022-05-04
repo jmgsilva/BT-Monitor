@@ -1,5 +1,5 @@
 # Ignore everything
-*
+/*
 
 # But not these directories
 !bt_monitor/
