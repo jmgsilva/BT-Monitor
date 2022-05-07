@@ -11,15 +11,20 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets SvgWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets SvgWidgets REQUIRED)
 find_package(cppzmq)
 
+INCLUDE_DIRECTORIES({PROJECT_SOURCE_DIR}/bt_monitor/icons/)
+
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        "${PROJECT_SOURCE_DIR}/bt_monitor/main.cpp"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.cpp"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.h"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.ui"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/nodemodel.cpp"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/nodemodel.h"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/icons/icons.qrc"
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -45,7 +50,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(BT-Monitor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets cppzmq)
+target_link_libraries(BT-Monitor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets cppzmq Qt6::SvgWidgets)
 
 set_target_properties(BT-Monitor PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

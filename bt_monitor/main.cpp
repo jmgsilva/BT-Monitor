@@ -11,7 +11,7 @@ using std::chrono_literals::operator""s;
 
 int main(int argc, char *argv[])
 {
-    // initialize the zmq context with a single IO thread
+    /*// initialize the zmq context with a single IO thread
     zmq::context_t context{1};
 
     // construct a REP (reply) socket and bind to interface
@@ -34,12 +34,15 @@ int main(int argc, char *argv[])
 
         // send the reply to the client
         socket.send(zmq::buffer(data), zmq::send_flags::none);
-    }
+    }*/
 
-    return 0;
 
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+
+    w.drawSomething();
+
+
     return a.exec();
 }
