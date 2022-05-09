@@ -1,4 +1,5 @@
 #include "nodemodel.h"
+#include <iostream>
 
 NodeModel::NodeModel(int x, int y, QString type, QString name) {
     pos_x = x;
@@ -10,8 +11,9 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     h_layout = new QHBoxLayout();
 
     node_frame = new QFrame();
+    node_frame->move(x,y);
     node_frame->setFrameStyle(QFrame::Panel | QFrame::Plain);
-    node_frame->setStyleSheet("background-color: lightGray");
+    node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
     node_frame->setLayout(v_layout);
 
     node_type_logo = new QLabel();
@@ -27,22 +29,39 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     v_layout->addWidget(name_box);
 
     type_box->setText(type);
-    type_box->setStyleSheet("color : black");
+    type_box->setStyleSheet("color: black");
     QFont font;
     font.setBold(true);
     font.setPointSize(13);
     type_box->setFont(font);
     h_layout->addWidget(type_box, 0, Qt::AlignRight);
-    type_box->setFixedHeight(20);
 
     name_box->setText(name);
-    name_box->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    //name_box->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    name_box->setStyleSheet("color: black");
     v_layout->addWidget(name_box, 0, Qt::AlignCenter);
+}
 
-    node_frame->setGeometry(x, y, 50, 50);
+void NodeModel::setParent(NodeModel* parent) {
+    this->parent = parent;
+}
+
+void NodeModel::setConnection(ConnectionModel* connection) {
+    this->connection_to_parent = connection;
+}
+
+QString NodeModel::getName(){
+    return node_name;
+}
+
+NodeModel* NodeModel::getParent() {
+    return parent;
+}
+
+ConnectionModel* NodeModel::getConnectionToParent() {
+    return connection_to_parent;
 }
 
 QFrame* NodeModel::getNodeFrame() {
     return node_frame;
 }
-
