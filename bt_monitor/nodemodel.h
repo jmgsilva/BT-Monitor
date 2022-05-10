@@ -15,11 +15,14 @@ class ConnectionModel;
 class NodeModel {
     int pos_x;
     int pos_y;
+    int child_x;
+    int min_child_x;
+    int max_child_x;
     QString node_type;
     QString node_name;
 
-    ConnectionModel* connection_to_parent;
     NodeModel* parent;
+    ConnectionModel* connection_to_parent;
 
     //vertical layout contains the horizontal layout and the name_box
     //horizontal layout contains the node type' icon and the node type label
@@ -35,8 +38,13 @@ class NodeModel {
 public:
     NodeModel(int x, int y, QString type, QString name);
     NodeModel(int x, int y, QString type, QString name, NodeModel* parent);
+    void setX(int new_x);
     void setParent(NodeModel* parent);
     void setConnection(ConnectionModel *connection);
+    void updateLimits(int child_x);
+    void moveHorizontally();
+    int getX();
+    int getChildX();
     QString getName();
     NodeModel* getParent();
     ConnectionModel* getConnectionToParent();

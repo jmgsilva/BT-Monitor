@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
         "${PROJECT_SOURCE_DIR}/bt_monitor/nodemodel.h"
         "${PROJECT_SOURCE_DIR}/bt_monitor/connectionmodel.cpp"
         "${PROJECT_SOURCE_DIR}/bt_monitor/connectionmodel.h"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/utils.cpp"
+        "${PROJECT_SOURCE_DIR}/bt_monitor/utils.h"
         "${PROJECT_SOURCE_DIR}/bt_monitor/icons/icons.qrc"
 )
 

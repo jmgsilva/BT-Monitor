@@ -2,8 +2,12 @@
 #include <iostream>
 
 NodeModel::NodeModel(int x, int y, QString type, QString name) {
+    parent = nullptr;
     pos_x = x;
     pos_y = y;
+    child_x = 0;
+    min_child_x = 60000;
+    max_child_x = -60000;
     node_type = type;
     node_name = name;
 
@@ -42,6 +46,29 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     v_layout->addWidget(name_box, 0, Qt::AlignCenter);
 }
 
+void NodeModel::updateLimits(int x) {
+    if(child_x == 0) {
+        child_x = pos_x;
+    }
+    if(x > max_child_x)
+        max_child_x = x;
+    if(x < min_child_x)
+        min_child_x = x;
+    //std::cout << std::to_string(pos_x) << std::endl;
+    std::cout << std::to_string(max_child_x) << std::endl;
+    std::cout << std::to_string(min_child_x) << std::endl;
+    pos_x = child_x + ((max_child_x - min_child_x) / 2);
+    std::cout << std::to_string(pos_x) << std::endl;
+}
+
+void NodeModel::moveHorizontally() {
+    node_frame->move(pos_x, pos_y);
+}
+
+void NodeModel::setX(int new_x){
+    pos_x = new_x;
+}
+
 void NodeModel::setParent(NodeModel* parent) {
     this->parent = parent;
 }
@@ -50,7 +77,16 @@ void NodeModel::setConnection(ConnectionModel* connection) {
     this->connection_to_parent = connection;
 }
 
-QString NodeModel::getName(){
+int NodeModel::getX() {
+    return pos_x;
+}
+
+int NodeModel::getChildX() {
+    child_x = child_x+200;
+    return child_x-200;
+}
+
+QString NodeModel::getName() {
     return node_name;
 }
 

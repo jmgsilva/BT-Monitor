@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <QApplication>
+#include "utils.h"
 
 using std::chrono_literals::operator""s;
 
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 
     // construct a REP (reply) socket and bind to interface
     zmq::socket_t socket{context, zmq::socket_type::rep};
-    socket.bind("tcp://*:5555");
+    //socket.bind("tcp:/:5555");
 
     // prepare some static data for responses
     const std::string data{"World"};
@@ -39,6 +40,11 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     MainWindow w;
+
+    std::string tree = "Fallback:fb1(Sequence:seq1(Action:a1,Fallback:fb2(Action:a2,Action:a3)),Action:a4,Sequence:seq2(Action:a5,Fallback:fb3(Action:a6,Action:a7,Action:a8,Action:a9)))/";
+    getBehaviorTreeFromString(tree);
+    orderTree();
+
     w.show();
     w.drawSomething();
     return a.exec();
