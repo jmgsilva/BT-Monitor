@@ -11,11 +11,12 @@ void getBehaviorTreeFromString(std::string tree) {
     std::string node_name;
     int start = 0;
     int end = tree.find(":");
-    int vector_it = 0;
+    int vector_idx = 0;
     int x = 0;
     int y = 0;
-    int max_x = 0;
 
+    //This block of code adds the first node of the tree (the first parent for the subsequent nodes).
+    //The while cycle is done taking in account this added first node on the behaveior tree's received string. Otherwise, it doesn't work.
     node_type = tree.substr(start, end - start);
     //std::cout << node_type << std::endl;
     start = end+1;
@@ -23,18 +24,23 @@ void getBehaviorTreeFromString(std::string tree) {
     node_name = tree.substr(start, end-start);
     start = end+1;
     //std::cout << node_name << std::endl;
-    tree_nodes.push_back(new NodeModel(x, y, QString::fromStdString(node_type), QString::fromStdString(node_name)));
-    //std::cout << std::to_string(vector_it) << std::endl;
-    vector_it++;
+    tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
+    //std::cout << std::to_string(vector_idx) << std::endl;
+    vector_idx++;
 
+    /*tree_nodes.push_back(new NodeModel(x, y, "Root", "Root"));
+    vector_idx++;
+    y += 150;*/
+
+    unsigned char ctrl_char;
     while(tree.at(start) != '/') {
-        unsigned char ctrl_char = tree.at(end);
+        ctrl_char = tree.at(end);
         //std::cout << ctrl_char << std::endl;
         if(ctrl_char == ')') {
             start++;
             end++;
             parent_idxs_stack.pop_back();
-            y = y-100;
+            y -= 150;
         }
         else {
             end = tree.find(":", start);
@@ -46,23 +52,23 @@ void getBehaviorTreeFromString(std::string tree) {
             //std::cout << node_name << std::endl;
             start = end+1;
             if(ctrl_char == '(') {
-                parent_idxs_stack.push_back(vector_it-1);
-                y = y+100;
-                tree_nodes.push_back(new NodeModel(x, y, QString::fromStdString(node_type), QString::fromStdString(node_name)));
-                tree_nodes[vector_it]->setParent(tree_nodes[parent_idxs_stack.back()]);
-                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_it]));
+                parent_idxs_stack.push_back(vector_idx-1);
+                y += 150;
+                tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
+                tree_nodes[vector_idx]->setParent(tree_nodes[parent_idxs_stack.back()]);
+                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_idx]));
                 /*std::cout << std::to_string(parent_idxs_stack.back()) << std::endl;
                 std::cout << std::to_string(vector_it) << std::endl;*/
-                vector_it++;
+                vector_idx++;
             }
             else if (ctrl_char == ',') {
-                x = x+150;
-                tree_nodes.push_back(new NodeModel(x, y, QString::fromStdString(node_type), QString::fromStdString(node_name)));
-                tree_nodes[vector_it]->setParent(tree_nodes[parent_idxs_stack.back()]);
-                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_it]));
+                x += 140;
+                tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
+                tree_nodes[vector_idx]->setParent(tree_nodes[parent_idxs_stack.back()]);
+                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_idx]));
                 /*std::cout << std::to_string(parent_idxs_stack.back()) << std::endl;
                 std::cout << std::to_string(vector_it) << std::endl;*/
-                vector_it++;
+                vector_idx++;
             }
         }
     }
@@ -75,7 +81,26 @@ void orderTree() {
         node->getParent()->updateLimits(x);
     }
 
-    for (int i = 0; i <= tree_nodes.size()-1; i++) {
-        tree_nodes[i]->moveHorizontally();
+    for(auto it : tree_nodes) {
+        it->moveHorizontally();
+    }
+}
+
+void getNodeStatus(std::string message) {
+    std::string node_name;
+    std::string node_status;
+    int start = 0;
+    int end = 0;
+    while(message.at(end) != '/') {
+        end = message.find(":", start);
+        node_name = message.substr(start, end-start);
+        start = end+1;
+        end = message.find_first_of(",/", start);
+        node_status = message.substr(start, end-start);
+        start = end+1;
+        for(auto it : tree_nodes) {
+            if(it->getName() == node_name)
+                it->updateStylesheet(node_status);
+        }
     }
 }

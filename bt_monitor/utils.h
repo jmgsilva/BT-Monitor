@@ -11,5 +11,6 @@ extern std::vector<ConnectionModel*> connections;
 
 void getBehaviorTreeFromString(std::string tree);
 void orderTree();
+void getNodeStatus(std::string message);
 
 #endif // UTILS_H
