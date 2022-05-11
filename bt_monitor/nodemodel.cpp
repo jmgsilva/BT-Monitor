@@ -1,13 +1,13 @@
 #include "nodemodel.h"
 #include <iostream>
 
-NodeModel::NodeModel(int x, int y, QString type, QString name) {
+NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     parent = nullptr;
     pos_x = x;
     pos_y = y;
-    child_x = 0;
-    min_child_x = 60000;
-    max_child_x = -60000;
+    pos_x_bckp = -60000;
+    number_of_children = 0;
+    children_x_sum = 0;
     node_type = type;
     node_name = name;
 
@@ -17,6 +17,7 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     node_frame = new QFrame();
     node_frame->move(x,y);
     node_frame->setFrameStyle(QFrame::Panel | QFrame::Plain);
+    node_frame->setLineWidth(2);
     node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
     node_frame->setLayout(v_layout);
 
@@ -24,7 +25,7 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     type_box = new QLabel();
     name_box = new QLabel();
 
-    QString svgPath = ":/" + type + ".svg";
+    QString svgPath = ":/" + QString::fromStdString(type) + ".svg";
     node_type_logo->setPixmap(QPixmap(svgPath.toLower()).scaledToHeight(20));
     h_layout->addWidget(node_type_logo, 0, Qt::AlignLeft);
 
@@ -32,7 +33,7 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     v_layout->addSpacing(5);
     v_layout->addWidget(name_box);
 
-    type_box->setText(type);
+    type_box->setText(QString::fromStdString(type));
     type_box->setStyleSheet("color: black");
     QFont font;
     font.setBold(true);
@@ -40,29 +41,39 @@ NodeModel::NodeModel(int x, int y, QString type, QString name) {
     type_box->setFont(font);
     h_layout->addWidget(type_box, 0, Qt::AlignRight);
 
-    name_box->setText(name);
+    name_box->setText(QString::fromStdString(name));
     //name_box->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     name_box->setStyleSheet("color: black");
     v_layout->addWidget(name_box, 0, Qt::AlignCenter);
 }
 
 void NodeModel::updateLimits(int x) {
-    if(child_x == 0) {
-        child_x = pos_x;
+    if(pos_x_bckp == -60000) {
+        pos_x_bckp = pos_x;
     }
-    if(x > max_child_x)
-        max_child_x = x;
-    if(x < min_child_x)
-        min_child_x = x;
+    number_of_children++;
+    children_x_sum += x;
     //std::cout << std::to_string(pos_x) << std::endl;
-    std::cout << std::to_string(max_child_x) << std::endl;
-    std::cout << std::to_string(min_child_x) << std::endl;
-    pos_x = child_x + ((max_child_x - min_child_x) / 2);
-    std::cout << std::to_string(pos_x) << std::endl;
+    //std::cout << std::to_string(max_child_x) << std::endl;
+    //std::cout << std::to_string(min_child_x) << std::endl;
+    pos_x = children_x_sum/number_of_children;
+    //std::cout << node_name << " " << std::to_string(pos_x) << std::endl;
 }
 
 void NodeModel::moveHorizontally() {
     node_frame->move(pos_x, pos_y);
+}
+
+void NodeModel::updateStylesheet(std::string node_status) {
+    node_frame->setStyleSheet("");
+    if(node_status == "success")
+        node_frame->setStyleSheet("color: white;" "background-color: rgb(217, 255, 219);");
+    else if(node_status == "failure")
+        node_frame->setStyleSheet("color: white;" "background-color: rgb(255, 223, 223);");
+    else if(node_status == "running")
+        node_frame->setStyleSheet("color: white;" "background-color: rgb(255, 250, 206);");
+    else if(node_status == "idle")
+        node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
 }
 
 void NodeModel::setX(int new_x){
@@ -81,12 +92,7 @@ int NodeModel::getX() {
     return pos_x;
 }
 
-int NodeModel::getChildX() {
-    child_x = child_x+200;
-    return child_x-200;
-}
-
-QString NodeModel::getName() {
+std::string NodeModel::getName() {
     return node_name;
 }
 

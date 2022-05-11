@@ -15,11 +15,11 @@ class ConnectionModel;
 class NodeModel {
     int pos_x;
     int pos_y;
-    int child_x;
-    int min_child_x;
-    int max_child_x;
-    QString node_type;
-    QString node_name;
+    int pos_x_bckp;
+    int number_of_children;
+    int children_x_sum;
+    std::string node_type;
+    std::string node_name;
 
     NodeModel* parent;
     ConnectionModel* connection_to_parent;
@@ -36,16 +36,16 @@ class NodeModel {
 
 
 public:
-    NodeModel(int x, int y, QString type, QString name);
-    NodeModel(int x, int y, QString type, QString name, NodeModel* parent);
+    NodeModel(int x, int y, std::string type, std::string name);
+    NodeModel(int x, int y, std::string type, std::string name, NodeModel* parent);
     void setX(int new_x);
     void setParent(NodeModel* parent);
     void setConnection(ConnectionModel *connection);
     void updateLimits(int child_x);
     void moveHorizontally();
+    void updateStylesheet(std::string node_status);
     int getX();
-    int getChildX();
-    QString getName();
+    std::string getName();
     NodeModel* getParent();
     ConnectionModel* getConnectionToParent();
     QFrame* getNodeFrame();

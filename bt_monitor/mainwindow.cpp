@@ -39,6 +39,8 @@ void MainWindow::drawSomething() {
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
     ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+
+    //getNodeStatus("fb1:success,a1:failure/");
 }
 
 MainWindow::~MainWindow()
