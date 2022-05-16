@@ -3,8 +3,9 @@
 #include "nodemodel.h"
 #include "connectionmodel.h"
 #include "utils.h"
+#include "zmqserver.h"
 #include <QGraphicsView>
-#include <QGraphicsScene>
+#include <stdexcept>
 
 #include <iostream>
 
@@ -16,34 +17,58 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::drawSomething() {
-    QGraphicsScene *scene = new QGraphicsScene();
+    scene = new QGraphicsScene();
     scene->setBackgroundBrush(Qt::darkGray);
-
-    //NodeModel *node1 = new NodeModel(0, 0, "Fallback", "Fallback1");
-    //NodeModel *node2 = new NodeModel(0, 300, "Sequence", "Sequence1");
-
-    //std::cout << node1->getNodeFrame()->width() << std::endl;
-
-    /*scene->addWidget(node1->getNodeFrame());
-    scene->addWidget(node2->getNodeFrame());
-    scene->addItem(new ConnectionModel(node1, node2));*/
-
-    for (auto it = begin (tree_nodes); it != end (tree_nodes); ++it) {
-        scene->addWidget((*it)->getNodeFrame());
-    }
-
-    for (auto it = begin (connections); it != end (connections); ++it) {
-        scene->addItem((*it));
-    }
 
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
-    ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+}
 
-    //getNodeStatus("fb1:success,a1:failure/");
+void MainWindow::handleMessage(const std::string &message) {
+    //Tree=Fallback:fb1...
+    //Status=fb1:success...
+    int header_end = message.find("=");
+    std::string header = message.substr(0, header_end);
+    std::string content = message.substr(header_end+1);
+    std::cout << content << std::endl;
+    if(header == "Tree") {
+        getBehaviorTreeFromString(content);
+        orderTree();
+        for (auto it = begin (tree_nodes); it != end (tree_nodes); ++it) {
+            scene->addWidget((*it)->getNodeFrame());
+        }
+
+        for (auto it = begin (connections); it != end (connections); ++it) {
+            scene->addItem((*it));
+        }
+        //ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    }
+    else if (header == "Status") {
+        getNodeStatus(content);
+    }
+    //else throw std::logic_error("Unknown type of message received");
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->pushButton->setDisabled(1);
+    ui->pushButton->setText("Server is running");
+    ZMQServer *zmq_server = new ZMQServer();
+    zmq_server->moveToThread(&th);
+    connect(zmq_server, &QThread::finished, zmq_server, &QObject::deleteLater);
+    connect(zmq_server, &ZMQServer::messageReceived, this, &MainWindow::handleMessage);
+    zmq_server->start();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    close();
 }
 
 MainWindow::~MainWindow()
 {
+    th.quit();
+    th.wait();
     delete ui;
 }
+

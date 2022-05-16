@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1388</width>
-    <height>1011</height>
+    <width>1659</width>
+    <height>1040</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,17 +17,104 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>30</y>
-      <width>1291</width>
-      <height>931</height>
+      <x>220</x>
+      <y>10</y>
+      <width>1431</width>
+      <height>971</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
      <item>
       <widget class="QGraphicsView" name="graphicsView"/>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>169</y>
+      <width>201</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start ZMQ Server</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ip_label">
+    <property name="geometry">
+     <rect>
+      <x>41</x>
+      <y>89</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IP :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="ip_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>89</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(238, 238, 236);</string>
+    </property>
+    <property name="text">
+     <string>localhost</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="port_label">
+    <property name="geometry">
+     <rect>
+      <x>25</x>
+      <y>119</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="port_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>119</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(238, 238, 236);</string>
+    </property>
+    <property name="text">
+     <string>5555</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>957</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -35,7 +122,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1388</width>
+     <width>1659</width>
      <height>22</height>
     </rect>
    </property>
