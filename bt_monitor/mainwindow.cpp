@@ -5,6 +5,8 @@
 #include "utils.h"
 #include "zmqserver.h"
 #include <QGraphicsView>
+#include <QTimeLine>
+#include <QWheelEvent>
 #include <stdexcept>
 
 #include <iostream>
@@ -17,41 +19,41 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::drawSomething() {
+    graphicsview = new MyQGraphicsView();
     scene = new QGraphicsScene();
     scene->setBackgroundBrush(Qt::darkGray);
 
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->show();
+    graphicsview->setScene(scene);
+    ui->verticalLayout->addWidget(graphicsview);
+    graphicsview->show();
 }
 
 void MainWindow::handleMessage(const std::string &message) {
-    //Tree=Fallback:fb1...
-    //Status=fb1:success...
     int header_end = message.find("=");
     std::string header = message.substr(0, header_end);
     std::string content = message.substr(header_end+1);
-    std::cout << content << std::endl;
-    if(header == "Tree") {
+    if (header == "Status") {
+        getNodeStatus(content);
+    }
+    else if (header == "Tree") {
         getBehaviorTreeFromString(content);
         orderTree();
         for (auto it = begin (tree_nodes); it != end (tree_nodes); ++it) {
             scene->addWidget((*it)->getNodeFrame());
         }
-
         for (auto it = begin (connections); it != end (connections); ++it) {
             scene->addItem((*it));
         }
         //ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
     }
-    else if (header == "Status") {
-        getNodeStatus(content);
-    }
-    //else throw std::logic_error("Unknown type of message received");
+    else throw std::logic_error("Unknown type of message received");
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     ui->pushButton->setDisabled(1);
+    ui->ip_lineEdit->setDisabled(1);
+    ui->port_lineEdit->setDisabled(1);
     ui->pushButton->setText("Server is running");
     ZMQServer *zmq_server = new ZMQServer();
     zmq_server->moveToThread(&th);
@@ -63,6 +65,33 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     close();
+}
+
+void MyQGraphicsView::wheelEvent ( QWheelEvent * event ) {
+    int numDegrees = event->angleDelta().y() / 8;
+    int numSteps = numDegrees / 15; // see QWheelEvent documentation
+    _numScheduledScalings += numSteps;
+    if (_numScheduledScalings * numSteps < 0) // if user moved the wheel in another direction, we reset previously scheduled scalings
+    _numScheduledScalings = numSteps;
+    QTimeLine *anim = new QTimeLine(350, this);
+    anim->setUpdateInterval(20);
+    connect(anim, SIGNAL (valueChanged(qreal)), SLOT (scalingTime(qreal)));
+    connect(anim, SIGNAL (finished()), SLOT (animFinished()));
+    anim->start();
+}
+
+void MyQGraphicsView::scalingTime(qreal x) {
+    qreal factor = 1.0+ qreal(_numScheduledScalings) / 300.0;
+    scale(factor, factor);
+}
+
+void MyQGraphicsView::animFinished() {
+
+    if (_numScheduledScalings > 0)
+        _numScheduledScalings--;
+    else
+        _numScheduledScalings++;
+    sender()->~QObject();
 }
 
 MainWindow::~MainWindow()

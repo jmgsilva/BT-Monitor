@@ -62,7 +62,7 @@ void getBehaviorTreeFromString(std::string tree) {
                 vector_idx++;
             }
             else if (ctrl_char == ',') {
-                x += 140;
+                x += 150;
                 tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
                 tree_nodes[vector_idx]->setParent(tree_nodes[parent_idxs_stack.back()]);
                 connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_idx]));

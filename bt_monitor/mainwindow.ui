@@ -27,9 +27,6 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
-     <item>
-      <widget class="QGraphicsView" name="graphicsView"/>
-     </item>
     </layout>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -42,7 +39,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Start ZMQ Server</string>
+     <string>Setup ZMQ Server</string>
     </property>
    </widget>
    <widget class="QLabel" name="ip_label">

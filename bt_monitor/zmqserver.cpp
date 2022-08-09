@@ -12,9 +12,8 @@ void ZMQServer::run() {
         std::string message;
 
         // receive a request from client
-        socket.recv(request, zmq::recv_flags::none);
+        zmq::recv_result_t result = socket.recv(request, zmq::recv_flags::none);
 
-        // work
         message = request.to_string();
 
         emit messageReceived(message);
@@ -23,3 +22,4 @@ void ZMQServer::run() {
         socket.send(zmq::buffer("ACK"), zmq::send_flags::none);
     }
 }
+

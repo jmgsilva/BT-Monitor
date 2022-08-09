@@ -20,6 +20,7 @@ NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     node_frame->setLineWidth(2);
     node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
     node_frame->setLayout(v_layout);
+    node_frame->setFixedWidth(135);
 
     node_type_logo = new QLabel();
     type_box = new QLabel();
@@ -27,9 +28,10 @@ NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
 
     QString svgPath = ":/" + QString::fromStdString(type) + ".svg";
     node_type_logo->setPixmap(QPixmap(svgPath.toLower()).scaledToHeight(20));
-    h_layout->addWidget(node_type_logo, 0, Qt::AlignLeft);
+    h_layout->addWidget(node_type_logo, 0, Qt::AlignRight);
 
     v_layout->addLayout(h_layout);
+    v_layout->setAlignment(h_layout, Qt::AlignHCenter);
     v_layout->addSpacing(5);
     v_layout->addWidget(name_box);
 
@@ -39,7 +41,7 @@ NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     font.setBold(true);
     font.setPointSize(13);
     type_box->setFont(font);
-    h_layout->addWidget(type_box, 0, Qt::AlignRight);
+    h_layout->addWidget(type_box, 0, Qt::AlignLeft);
 
     name_box->setText(QString::fromStdString(name));
     //name_box->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
