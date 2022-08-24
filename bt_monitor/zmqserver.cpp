@@ -22,4 +22,3 @@ void ZMQServer::run() {
         socket.send(zmq::buffer("ACK"), zmq::send_flags::none);
     }
 }
-

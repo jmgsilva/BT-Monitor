@@ -20,7 +20,7 @@ NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     node_frame->setLineWidth(2);
     node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
     node_frame->setLayout(v_layout);
-    node_frame->setFixedWidth(135);
+    node_frame->setFixedWidth(142);
 
     node_type_logo = new QLabel();
     type_box = new QLabel();

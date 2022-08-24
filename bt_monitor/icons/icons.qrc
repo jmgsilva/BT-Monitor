@@ -4,7 +4,7 @@
         <file>action.svg</file>
         <file>condition.svg</file>
         <file>sequence.svg</file>
-        <file>parallel.svg</file>
         <file>decorator.svg</file>
+        <file>concurrent.svg</file>
     </qresource>
 </RCC>
