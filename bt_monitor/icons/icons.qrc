@@ -6,5 +6,6 @@
         <file>sequence.svg</file>
         <file>decorator.svg</file>
         <file>concurrent.svg</file>
+        <file>repeater.svg</file>
     </qresource>
 </RCC>
