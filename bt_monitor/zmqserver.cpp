@@ -1,24 +1,21 @@
 #include "zmqserver.h"
+#include <iostream>
 
 ZMQServer::ZMQServer() {
-    context = zmq::context_t{1};
-    socket = zmq::socket_t{context, zmq::socket_type::rep};
-    socket.bind("tcp://*:5555");
+    context = new zmq::context_t(1);
+    socket = new zmq::socket_t(*context, zmq::socket_type::pull);
+    socket->bind("tcp://*:5555");
+    //socket->set(zmq::sockopt::subscribe, "");
 }
 
 void ZMQServer::run() {
     for (;;)
     {
-        std::string message;
+        zmq::message_t message_received;
+        zmq::recv_result_t recv_result = socket->recv(message_received, zmq::recv_flags::none);
 
-        // receive a request from client
-        zmq::recv_result_t result = socket.recv(request, zmq::recv_flags::none);
+        std::string string_received = message_received.to_string();
 
-        message = request.to_string();
-
-        emit messageReceived(message);
-
-        // send the reply to the client (MANDATORY)
-        socket.send(zmq::buffer("ACK"), zmq::send_flags::none);
+        emit messageReceived(string_received);
     }
 }

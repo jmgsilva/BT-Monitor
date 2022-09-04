@@ -9,12 +9,8 @@ class ZMQServer : public QThread {
 
     QThread th;
 
-    zmq::context_t context;
-    zmq::socket_t socket;
-
-    zmq::message_t request;
-
-    //const std::string reply;
+    zmq::context_t *context;
+    zmq::socket_t *socket;
 
 public:
     ZMQServer();
