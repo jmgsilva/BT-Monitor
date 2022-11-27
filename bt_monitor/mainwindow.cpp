@@ -3,7 +3,7 @@
 #include "nodemodel.h"
 #include "connectionmodel.h"
 #include "utils.h"
-#include "zmqserver.h"
+#include "zmqpuller.h"
 #include <QGraphicsView>
 #include <QTimeLine>
 #include <QWheelEvent>

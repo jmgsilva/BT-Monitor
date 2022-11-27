@@ -1,4 +1,4 @@
-#include "zmqserver.h"
+#include "zmqpuller.h"
 #include <iostream>
 
 ZMQPuller::ZMQPuller() {
