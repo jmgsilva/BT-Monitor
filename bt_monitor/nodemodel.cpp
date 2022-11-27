@@ -73,7 +73,7 @@ void NodeModel::updateStylesheet(std::string node_status) {
     else if(node_status == "failure")
         node_frame->setStyleSheet("color: white;" "background-color: rgb(255, 223, 223);");
     else if(node_status == "running")
-        node_frame->setStyleSheet("color: white;" "background-color: rgb(255, 250, 206);");
+        node_frame->setStyleSheet("color: white;" "background-color: rgb(204, 229, 255);");
     else if(node_status == "idle")
         node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
 }
