@@ -1,14 +1,14 @@
 #include "zmqserver.h"
 #include <iostream>
 
-ZMQServer::ZMQServer() {
+ZMQPuller::ZMQPuller() {
     context = new zmq::context_t(1);
     socket = new zmq::socket_t(*context, zmq::socket_type::pull);
     socket->bind("tcp://*:5555");
     //socket->set(zmq::sockopt::subscribe, "");
 }
 
-void ZMQServer::run() {
+void ZMQPuller::run() {
     for (;;)
     {
         zmq::message_t message_received;

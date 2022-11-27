@@ -1,10 +1,10 @@
-#ifndef ZMQSERVER_H
-#define ZMQSERVER_H
+#ifndef ZMQPULLER_H
+#define ZMQPULLER_H
 
 #include <zmq.hpp>
 #include <QThread>
 
-class ZMQServer : public QThread {
+class ZMQPuller : public QThread {
     Q_OBJECT
 
     QThread th;
@@ -13,11 +13,11 @@ class ZMQServer : public QThread {
     zmq::socket_t *socket;
 
 public:
-    ZMQServer();
+    ZMQPuller();
     void run() override;
 
 signals:
     void messageReceived(const std::string messsage);
 };
 
-#endif // ZMQSERVER_H
+#endif // ZMQPULLER_H

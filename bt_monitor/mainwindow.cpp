@@ -11,10 +11,7 @@
 
 #include <iostream>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 }
 
@@ -49,21 +46,19 @@ void MainWindow::handleMessage(const std::string &message) {
     else throw std::logic_error("Unknown type of message received");
 }
 
-void MainWindow::on_pushButton_clicked()
-{
+void MainWindow::on_pushButton_clicked() {
     ui->pushButton->setDisabled(1);
     ui->ip_lineEdit->setDisabled(1);
     ui->port_lineEdit->setDisabled(1);
     ui->pushButton->setText("Server is running");
-    ZMQServer *zmq_server = new ZMQServer();
+    ZMQPuller *zmq_server = new ZMQPuller();
     zmq_server->moveToThread(&th);
     connect(zmq_server, &QThread::finished, zmq_server, &QObject::deleteLater);
-    connect(zmq_server, &ZMQServer::messageReceived, this, &MainWindow::handleMessage);
+    connect(zmq_server, &ZMQPuller::messageReceived, this, &MainWindow::handleMessage);
     zmq_server->start();
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
+void MainWindow::on_pushButton_2_clicked() {
     close();
 }
 
@@ -94,8 +89,7 @@ void MyQGraphicsView::animFinished() {
     sender()->~QObject();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     th.quit();
     th.wait();
     delete ui;
