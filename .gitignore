@@ -2,10 +2,12 @@
 *
 
 # But not these directories
-!bt_monitor/
-!bt_monitor/*
-!bt_monitor/icons/
-!bt_monitor/icons/*
+!src/
+!src/*
+!inc/
+!inc/*
+!icons/
+!icons/*
 
 # Or this specific files
 !CMakeLists.txt
