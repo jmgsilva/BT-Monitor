@@ -1,16 +1,11 @@
-#ifndef NODEMODEL_H
-#define NODEMODEL_H
+#ifndef BT_NODEMODEL_H
+#define BT_NODEMODEL_H
 
-#include "connectionmodel.h"
-#include <QGraphicsItem>
 #include <QString>
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QSvgWidget>
-
-class ConnectionModel;
 
 class NodeModel {
     int pos_x;
@@ -22,7 +17,7 @@ class NodeModel {
     std::string node_name;
 
     NodeModel* parent;
-    ConnectionModel* connection_to_parent;
+    //ConnectionModel* connection_to_parent;
 
     //vertical layout contains the horizontal layout and the name_box
     //horizontal layout contains the node type' icon and the node type label
@@ -40,15 +35,15 @@ public:
     NodeModel(int x, int y, std::string type, std::string name, NodeModel* parent);
     void setX(int new_x);
     void setParent(NodeModel* parent);
-    void setConnection(ConnectionModel *connection);
+    //void setConnection(ConnectionModel *connection);
     void updateLimits(int child_x);
     void moveHorizontally();
     void updateStylesheet(std::string node_status);
     int getX();
     std::string getName();
     NodeModel* getParent();
-    ConnectionModel* getConnectionToParent();
+    //ConnectionModel* getConnectionToParent();
     QFrame* getNodeFrame();
 };
 
-#endif // NODEMODEL_H
+#endif // BT_NODEMODEL_H

@@ -15,22 +15,26 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets SvgWidgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets SvgWidgets REQUIRED)
 find_package(cppzmq)
 
-INCLUDE_DIRECTORIES({PROJECT_SOURCE_DIR}/bt_monitor/icons/)
+include_directories(${PROJECT_SOURCE_DIR}/icons/)
+include_directories(${PROJECT_SOURCE_DIR}/inc/)
 
 set(PROJECT_SOURCES
-        "${PROJECT_SOURCE_DIR}/bt_monitor/main.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.h"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/mainwindow.ui"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/nodemodel.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/nodemodel.h"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/connectionmodel.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/connectionmodel.h"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/utils.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/utils.h"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/zmqserver.cpp"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/zmqserver.h"
-        "${PROJECT_SOURCE_DIR}/bt_monitor/icons/icons.qrc"
+        #Main
+        "${PROJECT_SOURCE_DIR}/src/main.cpp"
+        "${PROJECT_SOURCE_DIR}/src/mainwindow.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/mainwindow.h"
+        "${PROJECT_SOURCE_DIR}/src/mainwindow.ui"
+        #ZMQPuller
+        "${PROJECT_SOURCE_DIR}/src/zmqpuller.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/zmqpuller.h"
+        #BTModel
+        "${PROJECT_SOURCE_DIR}/src/bt_nodemodel.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/bt_nodemodel.h"
+        "${PROJECT_SOURCE_DIR}/src/bt_connectionmodel.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/bt_connectionmodel.h"
+        "${PROJECT_SOURCE_DIR}/src/bt_model.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/bt_model.h"
+        "${PROJECT_SOURCE_DIR}/icons/icons.qrc"
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

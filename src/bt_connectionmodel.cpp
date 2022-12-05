@@ -1,10 +1,6 @@
-#include "connectionmodel.h"
+#include "bt_connectionmodel.h"
 
-ConnectionModel::ConnectionModel(NodeModel *sourceNode, NodeModel *destNode) : source(sourceNode), dest(destNode)
-{
-    dest->setParent(source);
-    dest->setConnection(this);
-}
+ConnectionModel::ConnectionModel(QFrame *sourceNode, QFrame *destNode) : source(sourceNode), dest(destNode) {}
 
 QRectF ConnectionModel::boundingRect() const
 {
@@ -26,8 +22,8 @@ QRectF ConnectionModel::boundingRect() const
 
 void ConnectionModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QPoint sourcePoint(source->getNodeFrame()->geometry().x()+(source->getNodeFrame()->geometry().width()/2), source->getNodeFrame()->geometry().y()+(source->getNodeFrame()->geometry().height()));
-    QPoint destPoint(dest->getNodeFrame()->geometry().x()+(dest->getNodeFrame()->geometry().width()/2), dest->getNodeFrame()->geometry().y());
+    QPoint sourcePoint(source->geometry().x()+(source->geometry().width()/2), source->geometry().y()+(source->geometry().height()));
+    QPoint destPoint(dest->geometry().x()+(dest->geometry().width()/2), dest->geometry().y());
     QLineF line(sourcePoint, destPoint);
 
 

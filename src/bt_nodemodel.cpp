@@ -1,5 +1,4 @@
-#include "nodemodel.h"
-#include <iostream>
+#include "bt_nodemodel.h"
 
 NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     parent = nullptr;
@@ -86,9 +85,9 @@ void NodeModel::setParent(NodeModel* parent) {
     this->parent = parent;
 }
 
-void NodeModel::setConnection(ConnectionModel* connection) {
+/*void NodeModel::setConnection(ConnectionModel* connection) {
     this->connection_to_parent = connection;
-}
+}*/
 
 int NodeModel::getX() {
     return pos_x;
@@ -102,9 +101,9 @@ NodeModel* NodeModel::getParent() {
     return parent;
 }
 
-ConnectionModel* NodeModel::getConnectionToParent() {
+/*ConnectionModel* NodeModel::getConnectionToParent() {
     return connection_to_parent;
-}
+}*/
 
 QFrame* NodeModel::getNodeFrame() {
     return node_frame;

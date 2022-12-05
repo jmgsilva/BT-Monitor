@@ -1,15 +1,10 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "nodemodel.h"
-#include "connectionmodel.h"
-#include "utils.h"
 #include "zmqpuller.h"
-#include <QGraphicsView>
+
+//Zoom by scrolling
 #include <QTimeLine>
 #include <QWheelEvent>
-#include <stdexcept>
-
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -30,15 +25,15 @@ void MainWindow::handleMessage(const std::string &message) {
     std::string header = message.substr(0, header_end);
     std::string content = message.substr(header_end+1);
     if (header == "Status") {
-        getNodeStatus(content);
+        tree->updateNodesStatus(content);
     }
     else if (header == "Tree") {
-        getBehaviorTreeFromString(content);
-        orderTree();
-        for (auto it = begin (tree_nodes); it != end (tree_nodes); ++it) {
+        tree = new BehaviorTree(content);
+        tree->orderTree();
+        for (auto it = begin (tree->getTreeNodes()); it != end (tree->getTreeNodes()); ++it) {
             scene->addWidget((*it)->getNodeFrame());
         }
-        for (auto it = begin (connections); it != end (connections); ++it) {
+        for (auto it = begin (tree->getTreeConnections()); it != end (tree->getTreeConnections()); ++it) {
             scene->addItem((*it));
         }
         //ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
@@ -48,10 +43,10 @@ void MainWindow::handleMessage(const std::string &message) {
 
 void MainWindow::on_pushButton_clicked() {
     ui->pushButton->setDisabled(1);
-    ui->ip_lineEdit->setDisabled(1);
     ui->port_lineEdit->setDisabled(1);
     ui->pushButton->setText("Server is running");
-    ZMQPuller *zmq_server = new ZMQPuller();
+    ui->pushButton->setStyleSheet("color: rgb(94, 92, 100);");
+    ZMQPuller *zmq_server = new ZMQPuller(ui->ip_lineEdit->text().toStdString(), ui->port_lineEdit->text().toStdString());
     zmq_server->moveToThread(&th);
     connect(zmq_server, &QThread::finished, zmq_server, &QObject::deleteLater);
     connect(zmq_server, &ZMQPuller::messageReceived, this, &MainWindow::handleMessage);

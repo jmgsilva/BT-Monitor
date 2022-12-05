@@ -1,21 +1,19 @@
-#ifndef CONNECTIONMODEL_H
-#define CONNECTIONMODEL_H
+#ifndef BT_CONNECTIONMODEL_H
+#define BT_CONNECTIONMODEL_H
 
-#include "nodemodel.h"
 #include <QPainter>
 #include <QGraphicsItem>
-
-class NodeModel;
+#include <QFrame>
 
 class ConnectionModel : public QGraphicsItem {
-    NodeModel *source, *dest;
+    QFrame *source, *dest;
 
 public:
-    ConnectionModel(NodeModel *source, NodeModel *dest);
+    ConnectionModel(QFrame *source, QFrame *dest);
 
 protected:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
-#endif // CONNECTIONMODEL_H
+#endif // BT_CONNECTIONMODEL_H

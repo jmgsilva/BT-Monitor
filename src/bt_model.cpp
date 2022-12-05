@@ -1,11 +1,6 @@
-#include "utils.h"
+#include "bt_model.h"
 
-#include <iostream>
-
-std::vector<NodeModel*> tree_nodes;
-std::vector<ConnectionModel*> connections;
-
-void getBehaviorTreeFromString(std::string tree) {
+BehaviorTree::BehaviorTree(std::string tree) {
     std::vector<int> parent_idxs_stack;
     std::string node_type;
     std::string node_name;
@@ -56,7 +51,7 @@ void getBehaviorTreeFromString(std::string tree) {
                 y += 150;
                 tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
                 tree_nodes[vector_idx]->setParent(tree_nodes[parent_idxs_stack.back()]);
-                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_idx]));
+                tree_connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()]->getNodeFrame(), tree_nodes[vector_idx]->getNodeFrame()));
                 /*std::cout << std::to_string(parent_idxs_stack.back()) << std::endl;
                 std::cout << std::to_string(vector_it) << std::endl;*/
                 vector_idx++;
@@ -65,7 +60,7 @@ void getBehaviorTreeFromString(std::string tree) {
                 x += 150;
                 tree_nodes.push_back(new NodeModel(x, y, node_type, node_name));
                 tree_nodes[vector_idx]->setParent(tree_nodes[parent_idxs_stack.back()]);
-                connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()], tree_nodes[vector_idx]));
+                tree_connections.push_back(new ConnectionModel(tree_nodes[parent_idxs_stack.back()]->getNodeFrame(), tree_nodes[vector_idx]->getNodeFrame()));
                 /*std::cout << std::to_string(parent_idxs_stack.back()) << std::endl;
                 std::cout << std::to_string(vector_it) << std::endl;*/
                 vector_idx++;
@@ -74,7 +69,7 @@ void getBehaviorTreeFromString(std::string tree) {
     }
 }
 
-void orderTree() {
+void BehaviorTree::orderTree() {
     for (int i = tree_nodes.size()-1; i >= 1; i--) {
         NodeModel* node = tree_nodes[i];
         int x = node->getX();
@@ -86,7 +81,7 @@ void orderTree() {
     }
 }
 
-void getNodeStatus(std::string message) {
+void BehaviorTree::updateNodesStatus(std::string message) {
     std::string node_name;
     std::string node_status;
     int start = 0;
@@ -103,4 +98,12 @@ void getNodeStatus(std::string message) {
                 it->updateStylesheet(node_status);
         }
     }
+}
+
+std::vector<NodeModel*>& BehaviorTree::getTreeNodes() {
+    return tree_nodes;
+}
+
+std::vector<ConnectionModel*>& BehaviorTree::getTreeConnections() {
+    return tree_connections;
 }

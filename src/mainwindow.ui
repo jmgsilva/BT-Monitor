@@ -42,7 +42,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
      <string>Setup ZMQ Puller</string>
@@ -65,6 +66,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="ip_lineEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -74,10 +78,14 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(238, 238, 236);</string>
+     <string notr="true">background-color: rgb(238, 238, 236);
+color: rgb(94, 92, 100);</string>
     </property>
     <property name="text">
-     <string>localhost</string>
+     <string>*</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="port_label">
@@ -106,7 +114,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(238, 238, 236);</string>
+     <string notr="true">background-color: rgb(238, 238, 236);
+color: rgb(94, 92, 100);</string>
     </property>
     <property name="text">
      <string>5555</string>

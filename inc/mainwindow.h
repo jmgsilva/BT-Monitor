@@ -1,10 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "bt_model.h"
 #include <QMainWindow>
 #include <QThread>
-#include <QStandardItemModel>
-#include <QGraphicsScene>
 #include <QGraphicsView>
 
 QT_BEGIN_NAMESPACE
@@ -14,6 +13,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    BehaviorTree *tree;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -30,6 +30,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsView *graphicsview;
     QGraphicsScene *scene;
+
 };
 
 class MyQGraphicsView : public QGraphicsView {
