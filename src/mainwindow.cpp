@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "zmqpuller.h"
+#include "graph_model.h"
 
 //Zoom by scrolling
 #include <QTimeLine>
@@ -8,16 +9,78 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    setCentralWidget(ui->tabWidget);
 }
 
 void MainWindow::drawSomething() {
-    graphicsview = new MyQGraphicsView();
-    scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::darkGray);
+    graphicsviewBT = new MyQGraphicsView();
+    sceneBT = new QGraphicsScene();
+    sceneBT->setBackgroundBrush(Qt::darkGray);
 
-    graphicsview->setScene(scene);
-    ui->verticalLayout->addWidget(graphicsview);
-    graphicsview->show();
+    graphicsviewGraph = new QGraphicsView();
+    sceneGraph = new QGraphicsScene();
+    sceneGraph->setBackgroundBrush(Qt::darkGray);
+
+    graphicsviewBT->setScene(sceneBT);
+    ui->verticalLayout_5->addWidget(graphicsviewBT);
+    graphicsviewBT->show();
+
+    graphicsviewGraph->setScene(sceneGraph);
+    ui->verticalLayout_6->addWidget(graphicsviewGraph);
+    graphicsviewGraph->show();
+
+    /*graph = std::make_unique<Graph>();
+    graph->addEdge("A", "J");
+    graph->addEdge("J", "K");
+    graph->addEdge("K", "P");
+    graph->addEdge("P", "Q");
+    graph->addEdge("Q", "O");
+    graph->addEdge("J", "K");
+    graph->addEdge("O", "N");
+    graph->addEdge("Q", "R");
+    graph->addEdge("R", "M");
+    graph->addEdge("M", "L");
+    graph->addEdge("L", "K");
+    graph->addEdge("K", "J");
+    graph->addEdge("J", "I");
+    graph->addEdge("I", "B");
+    graph->addEdge("B", "C");
+    graph->addEdge("C", "H");
+    graph->addEdge("H", "G");
+    graph->addEdge("G", "D");
+    graph->addEdge("D", "E");
+    graph->addEdge("E", "D");
+    graph->addEdge("D", "G");
+    graph->addEdge("G", "F");
+    graph->addEdge("F", "M");
+    graph->addEdge("M", "R");
+    graph->addEdge("R", "Q");
+    graph->addEdge("Q", "P");
+    graph->addEdge("P", "K");
+    graph->addEdge("K", "J");
+    graph->addEdge("J", "A");
+
+
+    int num_nodes = graph->getGraphNodes().size();
+    double angle_step = 2 * M_PI / num_nodes;
+    double current_angle = 0;
+    double radius = num_nodes * 10;
+
+    for (int i = 0; i < num_nodes; i++) {
+        std::shared_ptr<GraphNodeModel> node = graph->getGraphNodes()[i];
+        node->updatePos(radius * cos(current_angle), radius * sin(current_angle));
+        current_angle += angle_step;
+    }
+
+    for (auto it = begin (graph->getGraphNodes()); it != end (graph->getGraphNodes()); ++it) {
+        sceneGraph->addItem((*it).get());
+    }
+
+    for (auto it = begin (graph->getGraphEdges()); it != end (graph->getGraphEdges()); ++it) {
+        sceneGraph->addItem((*it).get());
+    }*/
+
+    //ovo->moveBy(-40, -40);
 }
 
 void MainWindow::handleMessage(const std::string &message) {
@@ -28,15 +91,37 @@ void MainWindow::handleMessage(const std::string &message) {
         tree->updateNodesStatus(content);
     }
     else if (header == "Tree") {
-        tree = new BehaviorTree(content);
+        tree = std::make_unique<BehaviorTree>(content);
         tree->orderTree();
         for (auto it = begin (tree->getTreeNodes()); it != end (tree->getTreeNodes()); ++it) {
-            scene->addWidget((*it)->getNodeFrame());
+            sceneBT->addWidget((*it)->getNodeFrame());
         }
         for (auto it = begin (tree->getTreeConnections()); it != end (tree->getTreeConnections()); ++it) {
-            scene->addItem((*it));
+            sceneBT->addItem((*it));
         }
         //ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    }
+    else if (header == "Graph") {
+        graph = std::make_unique<Graph>(content);
+        int num_nodes = graph->getGraphNodes().size();
+        double angle_step = 2 * M_PI / num_nodes;
+        double current_angle = 0;
+        double radius = num_nodes * 10;
+
+        for (int i = 0; i < num_nodes; i++) {
+            std::shared_ptr<GraphNodeModel> node = graph->getGraphNodes()[i];
+            node->updatePos(radius * cos(current_angle), radius * sin(current_angle));
+            current_angle += angle_step;
+        }
+
+        for (auto it = begin (graph->getGraphNodes()); it != end (graph->getGraphNodes()); ++it) {
+            sceneGraph->addItem((*it).get());
+        }
+
+        for (auto it = begin (graph->getGraphEdges()); it != end (graph->getGraphEdges()); ++it) {
+            sceneGraph->addItem((*it).get());
+        }
+        graphicsviewGraph->fitInView(sceneGraph->sceneRect(), Qt::KeepAspectRatio);
     }
     else throw std::logic_error("Unknown type of message received");
 }
