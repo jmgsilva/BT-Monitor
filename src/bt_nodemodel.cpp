@@ -54,11 +54,7 @@ void NodeModel::updateLimits(int x) {
     }
     number_of_children++;
     children_x_sum += x;
-    //std::cout << std::to_string(pos_x) << std::endl;
-    //std::cout << std::to_string(max_child_x) << std::endl;
-    //std::cout << std::to_string(min_child_x) << std::endl;
     pos_x = children_x_sum/number_of_children;
-    //std::cout << node_name << " " << std::to_string(pos_x) << std::endl;
 }
 
 void NodeModel::moveHorizontally() {
@@ -67,13 +63,13 @@ void NodeModel::moveHorizontally() {
 
 void NodeModel::updateStylesheet(std::string node_status) {
     node_frame->setStyleSheet("");
-    if(node_status == "success")
+    if(node_status == "Success")
         node_frame->setStyleSheet("color: white;" "background-color: rgb(217, 255, 219);");
-    else if(node_status == "failure")
+    else if(node_status == "Failure")
         node_frame->setStyleSheet("color: white;" "background-color: rgb(255, 223, 223);");
-    else if(node_status == "running")
+    else if(node_status == "Running")
         node_frame->setStyleSheet("color: white;" "background-color: rgb(204, 229, 255);");
-    else if(node_status == "idle")
+    else if(node_status == "Idle")
         node_frame->setStyleSheet("color: white;" "background-color: lightGray;");
 }
 
@@ -84,10 +80,6 @@ void NodeModel::setX(int new_x){
 void NodeModel::setParent(NodeModel* parent) {
     this->parent = parent;
 }
-
-/*void NodeModel::setConnection(ConnectionModel* connection) {
-    this->connection_to_parent = connection;
-}*/
 
 int NodeModel::getX() {
     return pos_x;
@@ -100,10 +92,6 @@ std::string NodeModel::getName() {
 NodeModel* NodeModel::getParent() {
     return parent;
 }
-
-/*ConnectionModel* NodeModel::getConnectionToParent() {
-    return connection_to_parent;
-}*/
 
 QFrame* NodeModel::getNodeFrame() {
     return node_frame;

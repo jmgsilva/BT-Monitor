@@ -28,7 +28,8 @@ BehaviorTree::BehaviorTree(std::string tree) {
     y += 150;*/
 
     unsigned char ctrl_char;
-    while(tree.at(start) != '/') {
+
+    while(start < tree.length()) {
         ctrl_char = tree.at(end);
         //std::cout << ctrl_char << std::endl;
         if(ctrl_char == ')') {

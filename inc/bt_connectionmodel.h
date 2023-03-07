@@ -6,10 +6,10 @@
 #include <QFrame>
 
 class ConnectionModel : public QGraphicsItem {
-    QFrame *source, *dest;
+    QFrame *source_node, *dest_node;
 
 public:
-    ConnectionModel(QFrame *source, QFrame *dest);
+    ConnectionModel(QFrame *source_node, QFrame *dest_node);
 
 protected:
     QRectF boundingRect() const override;

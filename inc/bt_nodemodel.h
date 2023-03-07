@@ -11,13 +11,12 @@ class NodeModel {
     int pos_x;
     int pos_y;
     int pos_x_bckp;
-    int number_of_children;
+    size_t number_of_children;
     int children_x_sum;
     std::string node_type;
     std::string node_name;
 
     NodeModel* parent;
-    //ConnectionModel* connection_to_parent;
 
     //vertical layout contains the horizontal layout and the name_box
     //horizontal layout contains the node type' icon and the node type label
@@ -35,14 +34,12 @@ public:
     NodeModel(int x, int y, std::string type, std::string name, NodeModel* parent);
     void setX(int new_x);
     void setParent(NodeModel* parent);
-    //void setConnection(ConnectionModel *connection);
     void updateLimits(int child_x);
     void moveHorizontally();
     void updateStylesheet(std::string node_status);
     int getX();
     std::string getName();
     NodeModel* getParent();
-    //ConnectionModel* getConnectionToParent();
     QFrame* getNodeFrame();
 };
 

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "bt_model.h"
+#include "graph_model.h"
 #include <QMainWindow>
 #include <QThread>
 #include <QGraphicsView>
@@ -13,7 +14,9 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    BehaviorTree *tree;
+    //BehaviorTree *tree;
+    std::unique_ptr<BehaviorTree> tree;
+    std::unique_ptr<Graph> graph;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -28,8 +31,10 @@ private slots:
 private:
     QThread th;
     Ui::MainWindow *ui;
-    QGraphicsView *graphicsview;
-    QGraphicsScene *scene;
+    QGraphicsView *graphicsviewBT;
+    QGraphicsScene *sceneBT;
+    QGraphicsView *graphicsviewGraph;
+    QGraphicsScene *sceneGraph;
 
 };
 

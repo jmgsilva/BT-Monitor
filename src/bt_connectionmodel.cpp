@@ -1,29 +1,15 @@
 #include "bt_connectionmodel.h"
 
-ConnectionModel::ConnectionModel(QFrame *sourceNode, QFrame *destNode) : source(sourceNode), dest(destNode) {}
+ConnectionModel::ConnectionModel(QFrame *source_node, QFrame *dest_node) : source_node(source_node), dest_node(dest_node) {}
 
-QRectF ConnectionModel::boundingRect() const
-{
-    QPointF sourcePoint;
-    QPointF destPoint;
-    qreal arrowSize = 10;
-
-    if (!source || !dest)
-        return QRectF();
-
-    qreal penWidth = 1;
-    qreal extra = (penWidth + arrowSize) / 2.0;
-
-    return QRectF(sourcePoint, QSizeF(destPoint.x() - sourcePoint.x(),
-                                      destPoint.y() - sourcePoint.y()))
-        .normalized()
-        .adjusted(-extra, -extra, extra, extra);
+QRectF ConnectionModel::boundingRect() const {
+    return QRectF();
 }
 
 void ConnectionModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QPoint sourcePoint(source->geometry().x()+(source->geometry().width()/2), source->geometry().y()+(source->geometry().height()));
-    QPoint destPoint(dest->geometry().x()+(dest->geometry().width()/2), dest->geometry().y());
+    QPoint sourcePoint(source_node->geometry().x()+(source_node->geometry().width()/2), source_node->geometry().y()+(source_node->geometry().height()));
+    QPoint destPoint(dest_node->geometry().x()+(dest_node->geometry().width()/2), dest_node->geometry().y());
     QLineF line(sourcePoint, destPoint);
 
 
