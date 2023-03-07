@@ -35,6 +35,9 @@ set(PROJECT_SOURCES
         "${PROJECT_SOURCE_DIR}/src/bt_model.cpp"
         "${PROJECT_SOURCE_DIR}/inc/bt_model.h"
         "${PROJECT_SOURCE_DIR}/icons/icons.qrc"
+        #Graph
+        "${PROJECT_SOURCE_DIR}/src/graph_model.cpp"
+        "${PROJECT_SOURCE_DIR}/inc/graph_model.h"
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
