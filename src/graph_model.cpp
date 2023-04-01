@@ -116,9 +116,9 @@ Graph::Graph(std::string graph_string) {
         start = end+1;
         addNode(x, y, source_node_name);
         while(ctrl_char != ')') {
-            end = graph_string.find_first_of("-)", start);
+            end = graph_string.find_first_of(":)", start);
             ctrl_char = graph_string.at(end);
-            if(ctrl_char == '-') {
+            if(ctrl_char == ':') {
                 dest_node_name = graph_string.substr(start, end - start);
                 start = end+1;
                 end = graph_string.find_first_of(",)", start);
