@@ -7,6 +7,8 @@
 #include <QTimeLine>
 #include <QWheelEvent>
 
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     setCentralWidget(ui->tabWidget);
@@ -84,13 +86,18 @@ void MainWindow::drawSomething() {
 }
 
 void MainWindow::handleMessage(const std::string &message) {
+    std::cout << message << std::endl;
     int header_end = message.find("=");
     std::string header = message.substr(0, header_end);
     std::string content = message.substr(header_end+1);
     if (header == "Status") {
         tree->updateNodesStatus(content);
+        std::cout << message << std::endl;
     }
     else if (header == "Tree") {
+        sceneBT->clear();
+        sceneBT->update();
+        graphicsviewBT->update();
         tree = std::make_unique<BehaviorTree>(content);
         tree->orderTree();
         for (auto it = begin (tree->getTreeNodes()); it != end (tree->getTreeNodes()); ++it) {
@@ -99,7 +106,7 @@ void MainWindow::handleMessage(const std::string &message) {
         for (auto it = begin (tree->getTreeConnections()); it != end (tree->getTreeConnections()); ++it) {
             sceneBT->addItem((*it));
         }
-        //ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+        //graphicsviewBT->fitInView(sceneBT->sceneRect(), Qt::KeepAspectRatio);
     }
     else if (header == "Graph") {
         graph = std::make_unique<Graph>(content);
