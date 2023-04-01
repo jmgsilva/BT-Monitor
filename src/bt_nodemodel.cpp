@@ -1,11 +1,11 @@
 #include "bt_nodemodel.h"
+#include <iostream>
 
 NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     parent = nullptr;
     pos_x = x;
     pos_y = y;
-    pos_x_bckp = -60000;
-    number_of_children = 0;
+    children_count = 0;
     children_x_sum = 0;
     node_type = type;
     node_name = name;
@@ -48,13 +48,12 @@ NodeModel::NodeModel(int x, int y, std::string type, std::string name) {
     v_layout->addWidget(name_box, 0, Qt::AlignCenter);
 }
 
-void NodeModel::updateLimits(int x) {
-    if(pos_x_bckp == -60000) {
-        pos_x_bckp = pos_x;
-    }
-    number_of_children++;
-    children_x_sum += x;
-    pos_x = children_x_sum/number_of_children;
+void NodeModel::updateLimits(int children_x_sum, uint8_t children_count) {
+    if(children_count == 0)
+        return;
+    this->children_x_sum += children_x_sum;
+    this->children_count += children_count;
+    pos_x = this->children_x_sum/this->children_count;
 }
 
 void NodeModel::moveHorizontally() {

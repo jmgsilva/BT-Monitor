@@ -1,4 +1,5 @@
 #include "bt_model.h"
+#include <iostream>
 
 BehaviorTree::BehaviorTree(std::string tree) {
     std::vector<int> parent_idxs_stack;
@@ -71,11 +72,25 @@ BehaviorTree::BehaviorTree(std::string tree) {
 }
 
 void BehaviorTree::orderTree() {
+    uint8_t children_count = 0;
+    int children_x_sum = 0;
+    NodeModel* it_parent = tree_nodes[tree_nodes.size()-1];
+
     for (int i = tree_nodes.size()-1; i >= 1; i--) {
-        NodeModel* node = tree_nodes[i];
-        int x = node->getX();
-        node->getParent()->updateLimits(x);
+        NodeModel* it_node = tree_nodes[i];
+        NodeModel* it_node_parent = it_node->getParent();
+        if(it_node_parent->getName() != it_parent->getName()) {
+            it_parent->updateLimits(children_x_sum, children_count);
+            it_parent = it_node_parent;
+            children_count = 0;
+            children_x_sum = 0;
+        }
+
+        children_count++;
+        children_x_sum += it_node->getX();
     }
+
+    tree_nodes[0]->updateLimits(tree_nodes[1]->getX(), 1);
 
     for(auto it : tree_nodes) {
         it->moveHorizontally();

@@ -11,7 +11,7 @@ class NodeModel {
     int pos_x;
     int pos_y;
     int pos_x_bckp;
-    size_t number_of_children;
+    uint8_t children_count;
     int children_x_sum;
     std::string node_type;
     std::string node_name;
@@ -33,8 +33,8 @@ public:
     NodeModel(int x, int y, std::string type, std::string name);
     NodeModel(int x, int y, std::string type, std::string name, NodeModel* parent);
     void setX(int new_x);
-    void setParent(NodeModel* parent);
-    void updateLimits(int child_x);
+    void setParent(NodeModel*);
+    void updateLimits(int, uint8_t);
     void moveHorizontally();
     void updateStylesheet(std::string node_status);
     int getX();
