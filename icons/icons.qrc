@@ -9,5 +9,6 @@
         <file>parallel.svg</file>
         <file>alwayssuccess.svg</file>
         <file>repeatuntilsuccess.svg</file>
+        <file>emotionalrepeater.svg</file>
     </qresource>
 </RCC>
