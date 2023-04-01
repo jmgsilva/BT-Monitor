@@ -7,5 +7,7 @@
         <file>decorator.svg</file>
         <file>repeater.svg</file>
         <file>parallel.svg</file>
+        <file>alwayssuccess.svg</file>
+        <file>repeatuntilsuccess.svg</file>
     </qresource>
 </RCC>
