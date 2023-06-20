@@ -6,10 +6,10 @@ ZMQPuller::ZMQPuller() {
     socket->bind("tcp://*:5555");
 }
 
-ZMQPuller::ZMQPuller(std::string ip, std::string port) {
+ZMQPuller::ZMQPuller(std::string port) {
     context = new zmq::context_t(1);
     socket = new zmq::socket_t(*context, zmq::socket_type::pull);
-    socket->bind("tcp://"+ip+":"+port);
+    socket->bind("tcp://*:"+port);
 }
 
 void ZMQPuller::run() {

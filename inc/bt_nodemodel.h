@@ -8,37 +8,29 @@
 #include <QLabel>
 
 class NodeModel {
-    int pos_x;
-    int pos_y;
-    int pos_x_bckp;
-    uint8_t children_count;
-    int children_x_sum;
-    std::string node_type;
     std::string node_name;
+    std::string node_type;
+
+    int children_x_sum = 0;
+    uint8_t children_count = 0;
 
     NodeModel* parent;
 
     //vertical layout contains the horizontal layout and the name_box
     //horizontal layout contains the node type' icon and the node type label
-    QFrame* node_frame;
-    QVBoxLayout* v_layout;
-    QHBoxLayout* h_layout;
-
-    QLabel* node_type_logo;
-    QLabel* type_box;
-    QLabel* name_box;
-
+    std::unique_ptr<QFrame> node_frame;
+    std::unique_ptr<QVBoxLayout> v_layout;
+    std::unique_ptr<QHBoxLayout> h_layout;
+    std::unique_ptr<QLabel> type_logo;
+    std::unique_ptr<QLabel> type_box;
+    std::unique_ptr<QLabel> name_box;
 
 public:
     NodeModel(int x, int y, std::string type, std::string name);
-    NodeModel(int x, int y, std::string type, std::string name, NodeModel* parent);
-    void setX(int new_x);
     void setParent(NodeModel*);
-    void updateLimits(int, uint8_t);
-    void moveHorizontally();
+    void updatePosition(int, uint8_t);
     void updateStylesheet(std::string node_status);
-    int getX();
-    std::string getName();
+    const std::string& getName();
     NodeModel* getParent();
     QFrame* getNodeFrame();
 };

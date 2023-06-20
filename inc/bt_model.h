@@ -4,16 +4,16 @@
 #include "bt_nodemodel.h"
 #include "bt_connectionmodel.h"
 
-class BehaviorTree {
-    std::vector<NodeModel*> tree_nodes;
-    std::vector<ConnectionModel*> tree_connections;
+class BTModel {
+    std::vector<std::unique_ptr<NodeModel>> tree_nodes;
+    std::vector<std::unique_ptr<ConnectionModel>> tree_connections;
 
 public:
-    BehaviorTree(std::string tree);
+    BTModel(std::string tree);
     void orderTree();
     void updateNodesStatus(std::string message);
-    std::vector<NodeModel*>& getTreeNodes();
-    std::vector<ConnectionModel*>& getTreeConnections();
+    const std::vector<std::unique_ptr<NodeModel>>& getTreeNodes();
+    const std::vector<std::unique_ptr<ConnectionModel>>& getTreeConnections();
 };
 
 #endif // BT_MODEL_H

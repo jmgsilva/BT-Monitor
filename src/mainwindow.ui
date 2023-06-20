@@ -113,7 +113,7 @@ color: rgb(94, 92, 100);</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="exit_pushButton">
       <property name="geometry">
        <rect>
         <x>65</x>
@@ -268,7 +268,7 @@ color: rgb(94, 92, 100);</string>
        </property>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="ZMQ_pushButton">
       <property name="geometry">
        <rect>
         <x>25</x>

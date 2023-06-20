@@ -14,8 +14,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    //BehaviorTree *tree;
-    std::unique_ptr<BehaviorTree> tree;
+    std::unique_ptr<BTModel> tree;
     std::unique_ptr<Graph> graph;
 
 public:
@@ -24,18 +23,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void handleMessage(const std::string &message);
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
+    void handleMessage(const std::string& message);
+    void on_ZMQ_pushButton_clicked();
+    void on_exit_pushButton_clicked();
 
 private:
     QThread th;
     Ui::MainWindow *ui;
-    QGraphicsView *graphicsviewBT;
-    QGraphicsScene *sceneBT;
+    QGraphicsView *graphics_view_BT;
+    QGraphicsScene *graphics_scene_BT;
     QGraphicsView *graphicsviewGraph;
     QGraphicsScene *sceneGraph;
-
 };
 
 class MyQGraphicsView : public QGraphicsView {

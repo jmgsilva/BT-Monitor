@@ -6,18 +6,12 @@
 
 class ZMQPuller : public QThread {
     Q_OBJECT
-
-    QThread th;
-
     zmq::context_t *context;
     zmq::socket_t *socket;
 
-    std::string ip;
-    std::string port;
-
 public:
     ZMQPuller();
-    ZMQPuller(std::string ip, std::string port);
+    ZMQPuller(std::string port);
     void run() override;
 
 signals:
